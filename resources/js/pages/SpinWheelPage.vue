@@ -108,7 +108,12 @@ async function spin() {
                             transform: `rotate(${(n - 1) * 22.5}deg) translateY(-210px)`,
                         }"
                     />
-                    <svg ref="wheelEl" viewBox="0 0 400 400" class="relative h-full w-full drop-shadow-[0_30px_50px_rgba(0,0,0,0.45)]">
+                    <svg
+                        ref="wheelEl"
+                        viewBox="0 0 400 400"
+                        class="relative h-full w-full cursor-pointer drop-shadow-[0_30px_50px_rgba(0,0,0,0.45)]"
+                        @click="spin"
+                    >
                         <circle cx="200" cy="200" r="198" fill="#0b0c12" />
                         <path
                             v-for="(segment, index) in segments"
