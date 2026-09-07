@@ -214,9 +214,10 @@ onUnmounted(() => {
                 <motion.article
                     v-for="(prize, index) in prizes"
                     :key="prize.name"
-                    class="reveal glass-panel rounded-[1.8rem] p-6"
+                    class="glass-panel rounded-[1.8rem] p-6"
                     :initial="{ opacity: 0, y: 24 }"
                     :while-in-view="{ opacity: 1, y: 0, transition: { delay: index * 0.06 } }"
+                    :in-view-options="{ once: true }"
                 >
                     <div class="flex min-h-[220px] items-center justify-center">
                         <ProductVisual :kind="prize.kind" compact />

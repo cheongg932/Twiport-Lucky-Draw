@@ -26,6 +26,11 @@ function setReel(index: number, el: unknown) {
     reelEls.value[index] = el instanceof HTMLElement ? el : null;
 }
 
+function prizeIndex(id: string) {
+    const index = reelPrizes.value.findIndex((prize) => prize.id === id);
+    return index >= 0 ? index : 0;
+}
+
 async function spin() {
     if (spinning.value || reelPrizes.value.length === 0) {
         return;
@@ -33,37 +38,40 @@ async function spin() {
     spinning.value = true;
     showResult.value = false;
 
-    if (lever.value) {
-        gsap.fromTo(lever.value, { rotate: 0 }, { rotate: 42, yoyo: true, duration: 0.35, repeat: 1, ease: 'power2.inOut' });
+    try {
+        if (lever.value) {
+            gsap.fromTo(lever.value, { rotate: 0 }, { rotate: 42, yoyo: true, duration: 0.35, repeat: 1, ease: 'power2.inOut' });
+        }
+
+        const draw = await drawPrize('slots');
+        const reels = draw.reels ?? [draw.prize.id, draw.prize.id, draw.prize.id];
+        const centerOffset = itemHeight;
+
+        await Promise.all(
+            reels.map((id, reel) => {
+                const el = reelEls.value[reel];
+                if (!el) {
+                    return Promise.resolve();
+                }
+                const loops = 8 + reel * 2;
+                const index = prizeIndex(id);
+                const count = reelPrizes.value.length;
+                const target = loops * count * itemHeight + index * itemHeight - centerOffset;
+                return gsap.fromTo(el, { y: 0 }, {
+                    y: -target,
+                    duration: 2.2 + reel * 0.55,
+                    ease: 'power4.out',
+                }).then(() => {
+                    gsap.set(el, { y: -(index * itemHeight - centerOffset) });
+                });
+            }),
+        );
+
+        result.value = draw.prize;
+        showResult.value = true;
+    } finally {
+        spinning.value = false;
     }
-
-    const draw = await drawPrize('slots');
-    const reels = draw.reels ?? [draw.prize.id, draw.prize.id, draw.prize.id];
-
-    const centerOffset = itemHeight;
-    await Promise.all(
-        reels.map((id, reel) => {
-            const el = reelEls.value[reel];
-            if (!el) {
-                return Promise.resolve();
-            }
-            const loops = 8 + reel * 2;
-            const index = prizeIndex(id);
-            const count = reelPrizes.value.length;
-            const target = loops * count * itemHeight + index * itemHeight - centerOffset;
-            return gsap.fromTo(el, { y: 0 }, {
-                y: -target,
-                duration: 2.2 + reel * 0.55,
-                ease: 'power4.out',
-            }).then(() => {
-                gsap.set(el, { y: -(index * itemHeight - centerOffset) });
-            });
-        }),
-    );
-
-    result.value = draw.prize;
-    showResult.value = true;
-    spinning.value = false;
 }
 </script>
 
@@ -89,7 +97,7 @@ async function spin() {
                                     :ref="(el) => setReel(reel - 1, el)"
                                 >
                                     <div
-                                        v-for="loop in 18"
+                                        v-for="loop in 60"
                                         :key="`${reel}-${loop}`"
                                         class="grid h-[160px] place-items-center overflow-hidden"
                                     >
