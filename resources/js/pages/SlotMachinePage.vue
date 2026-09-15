@@ -85,7 +85,7 @@ async function spin() {
             <div class="relative overflow-hidden rounded-[2.2rem] border border-white/10 bg-[#120818] p-5 shadow-[0_30px_80px_rgba(255,60,172,0.15)] sm:p-8">
                 <div class="mb-5 text-center">
                     <p class="font-display text-3xl font-bold tracking-[0.4em] text-[#f6d889]">JACKPOT</p>
-                    <p class="text-xs tracking-[0.35em] text-[#ff3cac]">TWIPORT SLOTS</p>
+                    <p class="text-xs tracking-[0.35em] text-[#ff3cac]">LUCKY SLOTS</p>
                 </div>
                 <div class="relative grid grid-cols-[1fr_auto] items-center gap-5">
                     <div class="relative overflow-hidden rounded-[1.4rem] border border-[#f6d889]/40 bg-black/40">
@@ -101,12 +101,11 @@ async function spin() {
                                         :key="`${reel}-${loop}`"
                                         class="grid h-[160px] place-items-center overflow-hidden"
                                     >
-                                        <div class="origin-center scale-[0.42]">
-                                            <ProductVisual
-                                                v-if="reelPrizes[(loop - 1) % Math.max(reelPrizes.length, 1)]"
-                                                :kind="reelPrizes[(loop - 1) % reelPrizes.length].kind"
-                                            />
-                                        </div>
+                                        <ProductVisual
+                                            v-if="reelPrizes[(loop - 1) % Math.max(reelPrizes.length, 1)]"
+                                            :kind="reelPrizes[(loop - 1) % reelPrizes.length].kind"
+                                            size="sm"
+                                        />
                                     </div>
                                 </div>
                             </div>

@@ -54,8 +54,8 @@ return [
         ],
         [
             'id' => 'voucher',
-            'name' => 'Twiport Voucher',
-            'tagline' => 'RM 200 to spend anywhere in the market.',
+            'name' => 'Gift Voucher',
+            'tagline' => 'RM 200 to spend on your next treat.',
             'value' => 'RM 200',
             'kind' => 'voucher',
             'rarity' => 'rare',

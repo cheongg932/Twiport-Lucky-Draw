@@ -147,8 +147,8 @@ async function spin() {
                 <p class="text-xs tracking-[0.3em] text-white/45">THIS WHEEL HIDES</p>
                 <div class="mt-5 grid grid-cols-2 gap-3">
                     <div v-for="segment in segments.filter((item, index, list) => list.findIndex((x) => x.id === item.id) === index)" :key="segment.id" class="rounded-2xl bg-white/5 p-3">
-                        <div class="flex h-24 items-center justify-center">
-                            <ProductVisual :kind="segment.kind" compact />
+                        <div class="flex h-[108px] items-center justify-center overflow-hidden">
+                            <ProductVisual :kind="segment.kind" size="sm" />
                         </div>
                         <p class="mt-1 text-center text-xs text-white/70">{{ segment.name }}</p>
                     </div>

@@ -45,7 +45,7 @@ const prizes = [
     { kind: 'ipad' as const, name: 'iPad Pro', value: 'RM 4,199' },
     { kind: 'watch' as const, name: 'Watch Ultra', value: 'RM 3,499' },
     { kind: 'airpods' as const, name: 'AirPods Pro', value: 'RM 999' },
-    { kind: 'voucher' as const, name: 'Twiport Voucher', value: 'RM 200' },
+    { kind: 'voucher' as const, name: 'Gift Voucher', value: 'RM 200' },
 ];
 
 onMounted(() => {
@@ -123,7 +123,7 @@ onUnmounted(() => {
     <div ref="hero" class="overflow-x-hidden pb-20">
         <section class="relative mx-auto grid min-h-[calc(100vh-6rem)] max-w-6xl items-center gap-12 px-5 pb-10 pt-10 sm:px-8 lg:grid-cols-[1.05fr_0.95fr]">
             <div>
-                <p class="hero-kicker text-xs tracking-[0.45em] text-[#f6d889]">TWIPORT LUCKY DRAW</p>
+                <p class="hero-kicker text-xs tracking-[0.45em] text-[#f6d889]">LUCKY DRAW</p>
                 <h1 class="mt-5 font-display text-5xl font-extrabold leading-[0.92] sm:text-7xl">
                     <span class="block overflow-hidden"><span class="hero-line inline-block">Win the glow.</span></span>
                     <span class="block overflow-hidden"><span class="hero-line gold-text inline-block">Take home</span></span>
@@ -148,10 +148,10 @@ onUnmounted(() => {
                     <ProductVisual kind="iphone" />
                 </div>
                 <div class="float-slow absolute -left-6 top-16 hidden sm:block">
-                    <ProductVisual kind="airpods" compact />
+                    <ProductVisual kind="airpods" size="sm" />
                 </div>
                 <div class="float-slow absolute -right-4 bottom-8 hidden delay-200 sm:block" style="animation-delay: 1.2s">
-                    <ProductVisual kind="watch" compact />
+                    <ProductVisual kind="watch" size="sm" />
                 </div>
             </div>
         </section>
@@ -169,7 +169,7 @@ onUnmounted(() => {
                     <span class="text-[#f6d889]">★</span>
                     <span>AIRPODS PRO</span>
                     <span class="text-[#3de0ff]">★</span>
-                    <span>TWIPORT VOUCHER</span>
+                    <span>GIFT VOUCHER</span>
                     <span class="text-[#ff3cac]">★</span>
                 </span>
             </div>
@@ -219,8 +219,8 @@ onUnmounted(() => {
                     :while-in-view="{ opacity: 1, y: 0, transition: { delay: index * 0.06 } }"
                     :in-view-options="{ once: true }"
                 >
-                    <div class="flex min-h-[220px] items-center justify-center">
-                        <ProductVisual :kind="prize.kind" compact />
+                    <div class="flex h-[150px] items-center justify-center overflow-hidden">
+                        <ProductVisual :kind="prize.kind" size="md" />
                     </div>
                     <h3 class="mt-2 font-display text-xl font-bold">{{ prize.name }}</h3>
                     <p class="text-[#f6d889]">{{ prize.value }}</p>
@@ -231,7 +231,7 @@ onUnmounted(() => {
         <section class="mx-auto mt-24 max-w-6xl px-5 sm:px-8">
             <div class="reveal overflow-hidden rounded-[2.2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(255,60,172,0.18),rgba(61,224,255,0.12)_45%,rgba(246,216,137,0.16))] px-8 py-14 text-center">
                 <p class="font-serif text-2xl italic text-white/90 sm:text-3xl">“One scratch. One spin. One drop.”</p>
-                <p class="mt-4 text-white/65">Twiport Lucky Draw — built on PHP 8.2, Laravel 12, Vue 3 and a little chaos.</p>
+                <p class="mt-4 text-white/65">Lucky Draw — built on PHP 8.2, Laravel 12, Vue 3 and a little chaos.</p>
                 <RouterLink to="/slots" class="mt-8 inline-flex rounded-full bg-white px-6 py-3 text-sm font-bold text-[#05060b]">
                     Pull the slot lever
                 </RouterLink>

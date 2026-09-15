@@ -19,7 +19,7 @@ const links = [
                 <span class="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-[#f6d889] to-[#ff3cac] text-[#05060b]">
                     <Sparkles :size="16" />
                 </span>
-                <span class="font-display text-sm font-bold tracking-[0.18em] text-white sm:text-base">TWIPORT</span>
+                <span class="font-display text-sm font-bold tracking-[0.18em] text-white sm:text-base">LUCKY DRAW</span>
             </RouterLink>
 
             <nav class="no-scrollbar flex max-w-[52vw] items-center gap-1 overflow-x-auto md:max-w-none">

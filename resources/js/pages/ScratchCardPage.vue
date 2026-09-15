@@ -64,7 +64,7 @@ function paintFoil() {
         ctx.translate(20 + i * 28, -40);
         ctx.rotate(-0.45);
         ctx.font = '700 18px Syne, sans-serif';
-        ctx.fillText('TWIPORT  LUCKY  DRAW', 0, 80 + (i % 3) * 70);
+        ctx.fillText('LUCKY  DRAW', 0, 80 + (i % 3) * 70);
         ctx.restore();
     }
 
@@ -171,7 +171,7 @@ onMounted(prepare);
                     <div class="relative aspect-[4/3] overflow-hidden rounded-[1.5rem] bg-[#12141c]">
                         <div class="absolute inset-0 grid place-items-center">
                             <div v-if="result" class="text-center">
-                                <ProductVisual :kind="result.kind" compact />
+                                <ProductVisual :kind="result.kind" size="md" />
                                 <p class="mt-3 font-display text-xl">{{ result.name }}</p>
                                 <p class="text-[#f6d889]">{{ result.value }}</p>
                             </div>
@@ -193,7 +193,7 @@ onMounted(prepare);
             <div>
                 <p class="font-serif text-2xl italic text-white/80">Holographic luck, titanium stakes.</p>
                 <p class="mt-4 text-white/60">
-                    Under this card could be an iPhone 16 Pro, AirPods Pro, or a Twiport voucher. The foil is the ritual —
+                    Under this card could be an iPhone 16 Pro, AirPods Pro, or a gift voucher. The foil is the ritual —
                     keep scratching until the prize can’t hide.
                 </p>
                 <div class="mt-8 flex flex-wrap gap-3">

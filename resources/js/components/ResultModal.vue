@@ -59,8 +59,8 @@ watch(
                 <p class="text-xs tracking-[0.4em] text-[#f6d889]">{{ won ? 'YOU WON' : 'NEXT ROUND' }}</p>
                 <h2 class="mt-3 font-display text-3xl font-bold">{{ prize.name }}</h2>
                 <p class="mt-2 text-sm text-white/65">{{ prize.tagline }}</p>
-                <div class="mt-6 flex justify-center">
-                    <ProductVisual :kind="prize.kind" compact />
+                <div class="mt-6 flex h-[150px] items-center justify-center overflow-hidden">
+                    <ProductVisual :kind="prize.kind" size="md" />
                 </div>
                 <p class="mt-4 text-lg font-semibold text-[#f6d889]">{{ prize.value }}</p>
                 <div class="mt-8 flex justify-center gap-3">

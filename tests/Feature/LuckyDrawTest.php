@@ -12,7 +12,7 @@ class LuckyDrawTest extends TestCase
             $this->get($path)
                 ->assertOk()
                 ->assertSee('id="app"', false)
-                ->assertSee('Twiport Lucky Draw');
+                ->assertSee('Lucky Draw');
         }
     }
 

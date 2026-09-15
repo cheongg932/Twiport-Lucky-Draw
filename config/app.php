@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Twiport Lucky Draw'),
+    'name' => env('APP_NAME', 'Lucky Draw'),
 
     /*
     |--------------------------------------------------------------------------

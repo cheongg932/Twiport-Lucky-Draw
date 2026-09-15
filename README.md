@@ -1,6 +1,6 @@
-# Twiport Lucky Draw
+# Lucky Draw
 
-Cinematic lucky-draw experience for Twiport, built UI-first on **PHP 8.2**, **Laravel 12**, **Vue 3**, **TypeScript**, **Vite**, and **Tailwind CSS**, with **GSAP**, **Motion**, **Lenis**, and **Anime.js**.
+Cinematic lucky-draw experience, built UI-first on **PHP 8.2**, **Laravel 12**, **Vue 3**, **TypeScript**, **Vite**, and **Tailwind CSS**, with **GSAP**, **Motion**, **Lenis**, and **Anime.js**.
 
 ## Pages
 
@@ -9,7 +9,7 @@ Cinematic lucky-draw experience for Twiport, built UI-first on **PHP 8.2**, **La
 - `/scratch` — holographic scratch card
 - `/slots` — neon slot machine
 
-Rewards are product-shaped: iPhone 16 Pro, MacBook Air, iPad Pro, Watch Ultra, AirPods Pro, and Twiport vouchers.
+Rewards are product-shaped: iPhone 16 Pro, MacBook Air, iPad Pro, Watch Ultra, AirPods Pro, and gift vouchers.
 
 ## Local setup
 
