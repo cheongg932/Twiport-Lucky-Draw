@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from 'vue';
 import gsap from 'gsap';
 import GameShell from '@/components/GameShell.vue';
+import PrizeGlyph from '@/components/PrizeGlyph.vue';
 import ProductVisual from '@/components/ProductVisual.vue';
 import ResultModal from '@/components/ResultModal.vue';
 import { drawPrize, fetchCatalog } from '@/api';
@@ -46,23 +47,9 @@ function slicePath(index: number) {
     return `M200,200 L${x1},${y1} A188,188 0 ${large} 1 ${x2},${y2} Z`;
 }
 
-function labelPos(index: number) {
+function iconTransform(index: number) {
     const [x, y] = polar(200, 200, 118, index * slice.value + slice.value / 2);
-    return { x, y, rotate: index * slice.value + slice.value / 2 };
-}
-
-const wheelLabels: Record<string, string> = {
-    'iphone-16-pro': 'iPhone',
-    'airpods-pro': 'AirPods',
-    miss: 'NEXT',
-    'watch-ultra': 'Watch',
-    'macbook-air': 'MacBook',
-    'ipad-pro': 'iPad',
-    voucher: 'Gift',
-};
-
-function wheelLabel(prize: Prize) {
-    return wheelLabels[prize.id] ?? (prize.kind === 'miss' ? 'NEXT' : prize.name);
+    return `translate(${x} ${y}) scale(0.58) translate(-50 -50)`;
 }
 
 const uniquePrizes = computed(() =>
@@ -141,19 +128,9 @@ async function spin() {
                             stroke="rgba(246,216,137,0.35)"
                             stroke-width="2"
                         />
-                        <g v-for="(segment, index) in segments" :key="`label-${index}`">
-                            <text
-                                :x="labelPos(index).x"
-                                :y="labelPos(index).y"
-                                text-anchor="middle"
-                                dominant-baseline="middle"
-                                fill="#f6d889"
-                                font-size="12"
-                                font-weight="700"
-                                :transform="`rotate(${labelPos(index).rotate} ${labelPos(index).x} ${labelPos(index).y})`"
-                            >
-                                {{ wheelLabel(segment) }}
-                            </text>
+                        <g v-for="(segment, index) in segments" :key="`icon-${index}`" :transform="iconTransform(index)">
+                            <circle cx="50" cy="50" r="38" fill="rgba(5,6,12,0.45)" />
+                            <PrizeGlyph :kind="segment.kind" />
                         </g>
                         <circle cx="200" cy="200" r="42" fill="#101218" stroke="#f6d889" stroke-width="4" />
                         <text x="200" y="206" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">SPIN</text>
@@ -162,23 +139,21 @@ async function spin() {
             </div>
 
             <div class="glass-panel rounded-[2rem] p-5 sm:p-7">
+                <p class="text-xs tracking-[0.3em] text-white/45">THIS WHEEL HIDES</p>
+                <div class="mt-4 grid grid-cols-2 gap-3">
+                    <div v-for="segment in uniquePrizes" :key="segment.id" class="overflow-hidden rounded-2xl bg-black/20">
+                        <ProductVisual :kind="segment.kind" size="sm" />
+                        <p class="px-2 py-2 text-center text-[11px] leading-tight text-white/85">{{ segment.name }}</p>
+                    </div>
+                </div>
                 <button
-                    class="w-full rounded-full bg-gradient-to-r from-[#f6d889] to-[#ffd36b] py-3.5 text-sm font-bold text-[#3a2a08] disabled:opacity-60"
+                    class="mt-5 w-full rounded-full bg-gradient-to-r from-[#f6d889] to-[#ffd36b] py-3.5 text-sm font-bold text-[#3a2a08] disabled:opacity-60"
                     type="button"
                     :disabled="spinning"
                     @click="spin"
                 >
                     {{ spinning ? 'Spinning…' : 'Spin for an iPhone' }}
                 </button>
-                <p class="mt-5 text-xs tracking-[0.3em] text-white/45">THIS WHEEL HIDES</p>
-                <div class="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-3">
-                    <div v-for="segment in uniquePrizes" :key="segment.id" class="rounded-2xl bg-black/20 p-3">
-                        <div class="flex justify-center">
-                            <ProductVisual :kind="segment.kind" size="sm" />
-                        </div>
-                        <p class="mt-2 text-center text-[11px] leading-tight text-white/85">{{ segment.name }}</p>
-                    </div>
-                </div>
             </div>
         </div>
         <ResultModal :open="showResult" :prize="result" @close="showResult = false" @again="spin" />

@@ -147,11 +147,11 @@ onUnmounted(() => {
                 <div ref="phone" class="relative mx-auto" style="transform-style: preserve-3d">
                     <ProductVisual kind="iphone" size="lg" />
                 </div>
-                <div class="float-slow absolute -left-2 top-16 hidden sm:block">
-                    <ProductVisual kind="airpods" size="md" />
+                <div class="float-slow absolute -left-2 top-16 hidden w-28 sm:block">
+                    <ProductVisual kind="airpods" size="sm" />
                 </div>
-                <div class="float-slow absolute -right-2 bottom-6 hidden delay-200 sm:block" style="animation-delay: 1.2s">
-                    <ProductVisual kind="watch" size="md" />
+                <div class="float-slow absolute -right-2 bottom-6 hidden w-28 delay-200 sm:block" style="animation-delay: 1.2s">
+                    <ProductVisual kind="watch" size="sm" />
                 </div>
             </div>
         </section>
@@ -214,15 +214,13 @@ onUnmounted(() => {
                 <motion.article
                     v-for="(prize, index) in prizes"
                     :key="prize.name"
-                    class="glass-panel rounded-[1.8rem] p-6"
+                    class="glass-panel overflow-hidden rounded-[1.8rem] p-5"
                     :initial="{ opacity: 0, y: 24 }"
                     :while-in-view="{ opacity: 1, y: 0, transition: { delay: index * 0.06 } }"
                     :in-view-options="{ once: true }"
                 >
-                    <div class="flex justify-center">
-                        <ProductVisual :kind="prize.kind" size="md" />
-                    </div>
-                    <h3 class="mt-2 font-display text-xl font-bold">{{ prize.name }}</h3>
+                    <ProductVisual :kind="prize.kind" size="md" />
+                    <h3 class="mt-3 font-display text-xl font-bold">{{ prize.name }}</h3>
                     <p class="text-[#f6d889]">{{ prize.value }}</p>
                 </motion.article>
             </div>
