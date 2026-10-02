@@ -139,21 +139,21 @@ async function spin() {
             </div>
 
             <div class="glass-panel rounded-[2rem] p-5 sm:p-7">
-                <p class="text-xs tracking-[0.3em] text-white/45">THIS WHEEL HIDES</p>
-                <div class="mt-4 grid grid-cols-2 gap-3">
-                    <div v-for="segment in uniquePrizes" :key="segment.id" class="overflow-hidden rounded-2xl bg-black/20">
-                        <ProductVisual :kind="segment.kind" size="sm" />
-                        <p class="px-2 py-2 text-center text-[11px] leading-tight text-white/85">{{ segment.name }}</p>
-                    </div>
-                </div>
                 <button
-                    class="mt-5 w-full rounded-full bg-gradient-to-r from-[#f6d889] to-[#ffd36b] py-3.5 text-sm font-bold text-[#3a2a08] disabled:opacity-60"
+                    class="w-full rounded-full bg-gradient-to-r from-[#f6d889] to-[#ffd36b] py-3.5 text-sm font-bold text-[#3a2a08] disabled:opacity-60"
                     type="button"
                     :disabled="spinning"
                     @click="spin"
                 >
                     {{ spinning ? 'Spinning…' : 'Spin for an iPhone' }}
                 </button>
+                <p class="mt-5 text-xs tracking-[0.3em] text-white/45">THIS WHEEL HIDES</p>
+                <div class="mt-4 grid grid-cols-2 gap-3">
+                    <div v-for="segment in uniquePrizes" :key="segment.id" class="overflow-hidden rounded-2xl bg-black/20">
+                        <ProductVisual :kind="segment.kind" size="sm" />
+                        <p class="px-2 py-2 text-center text-[11px] leading-tight text-white/85">{{ segment.name }}</p>
+                    </div>
+                </div>
             </div>
         </div>
         <ResultModal :open="showResult" :prize="result" @close="showResult = false" @again="spin" />
