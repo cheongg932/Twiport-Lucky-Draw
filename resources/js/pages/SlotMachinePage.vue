@@ -99,7 +99,7 @@ async function spin() {
                                     <div
                                         v-for="loop in 60"
                                         :key="`${reel}-${loop}`"
-                                        class="grid h-[160px] place-items-center overflow-hidden"
+                                        class="grid h-[160px] place-items-center"
                                     >
                                         <ProductVisual
                                             v-if="reelPrizes[(loop - 1) % Math.max(reelPrizes.length, 1)]"

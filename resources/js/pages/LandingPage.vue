@@ -144,14 +144,14 @@ onUnmounted(() => {
             </div>
             <div class="relative mx-auto" style="perspective: 1200px">
                 <div class="absolute inset-x-10 top-10 h-64 rounded-full bg-[radial-gradient(circle,rgba(246,216,137,0.28),transparent_70%)] blur-2xl" />
-                <div ref="phone" class="relative" style="transform-style: preserve-3d">
-                    <ProductVisual kind="iphone" />
+                <div ref="phone" class="relative mx-auto" style="transform-style: preserve-3d">
+                    <ProductVisual kind="iphone" size="lg" />
                 </div>
-                <div class="float-slow absolute -left-6 top-16 hidden sm:block">
-                    <ProductVisual kind="airpods" size="sm" />
+                <div class="float-slow absolute -left-2 top-16 hidden sm:block">
+                    <ProductVisual kind="airpods" size="md" />
                 </div>
-                <div class="float-slow absolute -right-4 bottom-8 hidden delay-200 sm:block" style="animation-delay: 1.2s">
-                    <ProductVisual kind="watch" size="sm" />
+                <div class="float-slow absolute -right-2 bottom-6 hidden delay-200 sm:block" style="animation-delay: 1.2s">
+                    <ProductVisual kind="watch" size="md" />
                 </div>
             </div>
         </section>
@@ -219,7 +219,7 @@ onUnmounted(() => {
                     :while-in-view="{ opacity: 1, y: 0, transition: { delay: index * 0.06 } }"
                     :in-view-options="{ once: true }"
                 >
-                    <div class="flex h-[120px] items-center justify-center">
+                    <div class="flex justify-center">
                         <ProductVisual :kind="prize.kind" size="md" />
                     </div>
                     <h3 class="mt-2 font-display text-xl font-bold">{{ prize.name }}</h3>

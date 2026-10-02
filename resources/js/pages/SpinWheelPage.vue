@@ -171,12 +171,12 @@ async function spin() {
                     {{ spinning ? 'Spinning…' : 'Spin for an iPhone' }}
                 </button>
                 <p class="mt-5 text-xs tracking-[0.3em] text-white/45">THIS WHEEL HIDES</p>
-                <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
-                    <div v-for="segment in uniquePrizes" :key="segment.id" class="rounded-2xl bg-white/5 p-3">
-                        <div class="flex h-[72px] items-center justify-center">
+                <div class="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-3">
+                    <div v-for="segment in uniquePrizes" :key="segment.id" class="rounded-2xl bg-black/20 p-3">
+                        <div class="flex justify-center">
                             <ProductVisual :kind="segment.kind" size="sm" />
                         </div>
-                        <p class="mt-2 text-center text-[11px] leading-tight text-white/80">{{ segment.name }}</p>
+                        <p class="mt-2 text-center text-[11px] leading-tight text-white/85">{{ segment.name }}</p>
                     </div>
                 </div>
             </div>
