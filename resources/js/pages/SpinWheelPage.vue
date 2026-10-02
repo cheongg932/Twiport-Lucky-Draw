@@ -149,9 +149,13 @@ async function spin() {
                 </button>
                 <p class="mt-5 text-xs tracking-[0.3em] text-white/45">THIS WHEEL HIDES</p>
                 <div class="mt-4 grid grid-cols-2 gap-3">
-                    <div v-for="segment in uniquePrizes" :key="segment.id" class="overflow-hidden rounded-2xl bg-black/20">
+                    <div
+                        v-for="segment in uniquePrizes"
+                        :key="segment.id"
+                        class="flex flex-col items-center overflow-hidden rounded-2xl bg-black/20 px-2 pb-2 pt-3"
+                    >
                         <ProductVisual :kind="segment.kind" size="sm" />
-                        <p class="px-2 py-2 text-center text-[11px] leading-tight text-white/85">{{ segment.name }}</p>
+                        <p class="mt-2 text-center text-[11px] leading-tight text-white/85">{{ segment.name }}</p>
                     </div>
                 </div>
             </div>

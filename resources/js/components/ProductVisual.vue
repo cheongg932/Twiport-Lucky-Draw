@@ -16,12 +16,12 @@ const props = withDefaults(
 
 const resolved = computed(() => props.size ?? (props.compact ? 'md' : 'lg'));
 
-const frameClass = computed(
+const boxPx = computed(
     () =>
         ({
-            sm: 'h-28 w-full',
-            md: 'h-40 w-full',
-            lg: 'mx-auto h-72 w-full max-w-[220px]',
+            sm: 112,
+            md: 160,
+            lg: 220,
         })[resolved.value],
 );
 
@@ -41,10 +41,18 @@ const plate = computed(
 
 <template>
     <div
-        class="grid place-items-center overflow-hidden rounded-2xl bg-gradient-to-b ring-1 ring-white/15"
-        :class="[frameClass, plate]"
+        class="mx-auto grid shrink-0 place-items-center overflow-hidden rounded-2xl bg-gradient-to-b ring-1 ring-white/15"
+        :class="plate"
+        :style="{ width: `${boxPx}px`, height: `${boxPx}px` }"
     >
-        <svg viewBox="0 0 100 100" class="h-[92%] w-[92%]" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <svg
+            :width="boxPx"
+            :height="boxPx"
+            viewBox="0 0 100 100"
+            class="block h-full w-full"
+            preserveAspectRatio="xMidYMid meet"
+            aria-hidden="true"
+        >
             <PrizeGlyph :kind="kind" />
         </svg>
     </div>

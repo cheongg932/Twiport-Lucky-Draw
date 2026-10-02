@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, nextTick, onMounted, ref } from 'vue';
 import gsap from 'gsap';
 import GameShell from '@/components/GameShell.vue';
 import ProductVisual from '@/components/ProductVisual.vue';
 import ResultModal from '@/components/ResultModal.vue';
 import { drawPrize, fetchCatalog } from '@/api';
 import type { Prize } from '@/types';
+
+const ITEM_HEIGHT = 148;
+const STRIP = 18;
 
 const spinning = ref(false);
 const lever = ref<HTMLElement | null>(null);
@@ -15,11 +18,23 @@ const catalog = ref<Prize[]>([]);
 const reelEls = ref<(HTMLElement | null)[]>([null, null, null]);
 
 const reelPrizes = computed(() => catalog.value.filter((prize) => prize.kind !== 'miss'));
-const itemHeight = 160;
+const strip = computed(() => {
+    const prizes = reelPrizes.value;
+    if (prizes.length === 0) {
+        return [];
+    }
+    return Array.from({ length: STRIP * prizes.length }, (_, index) => prizes[index % prizes.length]);
+});
 
 onMounted(async () => {
     const data = await fetchCatalog();
     catalog.value = data.prizes;
+    await nextTick();
+    reelEls.value.forEach((el) => {
+        if (el) {
+            gsap.set(el, { y: 0 });
+        }
+    });
 });
 
 function setReel(index: number, el: unknown) {
@@ -45,7 +60,7 @@ async function spin() {
 
         const draw = await drawPrize('slots');
         const reels = draw.reels ?? [draw.prize.id, draw.prize.id, draw.prize.id];
-        const centerOffset = itemHeight;
+        const centerOffset = ITEM_HEIGHT;
 
         await Promise.all(
             reels.map((id, reel) => {
@@ -53,16 +68,16 @@ async function spin() {
                 if (!el) {
                     return Promise.resolve();
                 }
-                const loops = 8 + reel * 2;
+                const loops = 6 + reel * 2;
                 const index = prizeIndex(id);
                 const count = reelPrizes.value.length;
-                const target = loops * count * itemHeight + index * itemHeight - centerOffset;
+                const target = loops * count * ITEM_HEIGHT + index * ITEM_HEIGHT - centerOffset;
                 return gsap.fromTo(el, { y: 0 }, {
                     y: -target,
                     duration: 2.2 + reel * 0.55,
                     ease: 'power4.out',
                 }).then(() => {
-                    gsap.set(el, { y: -(index * itemHeight - centerOffset) });
+                    gsap.set(el, { y: -(index * ITEM_HEIGHT - centerOffset) });
                 });
             }),
         );
@@ -81,31 +96,35 @@ async function spin() {
         title="Drop the reels."
         copy="A neon cabinet with iPhones, MacBooks and AirPods flying past the jackpot line. Match three to take it home."
     >
-        <div class="mx-auto max-w-4xl">
+        <div class="mx-auto max-w-4xl overflow-x-hidden">
             <div class="relative overflow-hidden rounded-[2.2rem] border border-white/10 bg-[#120818] p-5 shadow-[0_30px_80px_rgba(255,60,172,0.15)] sm:p-8">
                 <div class="mb-5 text-center">
                     <p class="font-display text-3xl font-bold tracking-[0.4em] text-[#f6d889]">JACKPOT</p>
                     <p class="text-xs tracking-[0.35em] text-[#ff3cac]">LUCKY SLOTS</p>
                 </div>
-                <div class="relative grid grid-cols-[1fr_auto] items-center gap-5">
+                <div class="relative">
                     <div class="relative overflow-hidden rounded-[1.4rem] border border-[#f6d889]/40 bg-black/40">
-                        <div class="pointer-events-none absolute inset-x-0 top-1/2 z-10 h-[160px] -translate-y-1/2 border-y border-[#3de0ff]/50 bg-[#3de0ff]/5" />
-                        <div class="grid grid-cols-3">
-                            <div v-for="reel in 3" :key="reel" class="relative h-[480px] overflow-hidden border-white/5" :class="reel < 3 ? 'border-r' : ''">
+                        <div class="pointer-events-none absolute inset-x-0 top-1/2 z-10 h-[148px] -translate-y-1/2 border-y border-[#3de0ff]/50 bg-[#3de0ff]/5" />
+                        <div v-if="strip.length === 0" class="grid h-[444px] place-items-center text-sm text-white/50">
+                            Loading prizes…
+                        </div>
+                        <div v-else class="grid grid-cols-3">
+                            <div
+                                v-for="reel in 3"
+                                :key="reel"
+                                class="relative h-[444px] overflow-hidden border-white/5"
+                                :class="reel < 3 ? 'border-r' : ''"
+                            >
                                 <div
-                                    class="will-change-transform"
+                                    class="flex w-full flex-col items-center will-change-transform"
                                     :ref="(el) => setReel(reel - 1, el)"
                                 >
                                     <div
-                                        v-for="loop in 60"
-                                        :key="`${reel}-${loop}`"
-                                        class="grid h-[160px] place-items-center"
+                                        v-for="(prize, loop) in strip"
+                                        :key="`${reel}-${prize.id}-${loop}`"
+                                        class="flex h-[148px] w-full items-center justify-center overflow-hidden"
                                     >
-                                        <ProductVisual
-                                            v-if="reelPrizes[(loop - 1) % Math.max(reelPrizes.length, 1)]"
-                                            :kind="reelPrizes[(loop - 1) % reelPrizes.length].kind"
-                                            size="sm"
-                                        />
+                                        <ProductVisual :kind="prize.kind" size="sm" />
                                     </div>
                                 </div>
                             </div>
@@ -113,18 +132,18 @@ async function spin() {
                     </div>
                     <button
                         ref="lever"
-                        class="hidden h-48 w-8 origin-top rounded-full bg-gradient-to-b from-[#d0d5e0] to-[#7b8494] shadow-inner sm:block"
+                        class="absolute -right-3 top-8 hidden h-40 w-7 origin-top rounded-full bg-gradient-to-b from-[#d0d5e0] to-[#7b8494] shadow-inner sm:block"
                         type="button"
                         :disabled="spinning"
                         @click="spin"
                     >
-                        <span class="absolute -bottom-6 left-1/2 h-10 w-10 -translate-x-1/2 rounded-full bg-gradient-to-br from-[#ff3cac] to-[#f6d889]" />
+                        <span class="absolute -bottom-5 left-1/2 h-9 w-9 -translate-x-1/2 rounded-full bg-gradient-to-br from-[#ff3cac] to-[#f6d889]" />
                     </button>
                 </div>
                 <button
                     class="mt-8 w-full rounded-full bg-gradient-to-r from-[#ff3cac] via-[#f6d889] to-[#3de0ff] py-3.5 text-sm font-bold text-[#16080f]"
                     type="button"
-                    :disabled="spinning"
+                    :disabled="spinning || strip.length === 0"
                     @click="spin"
                 >
                     {{ spinning ? 'Reels in motion…' : 'Pull the lever' }}
