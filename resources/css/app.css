@@ -1,0 +1,151 @@
+@import 'tailwindcss';
+@import 'lenis/dist/lenis.css';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+@source '../**/*.ts';
+@source '../**/*.vue';
+
+@theme {
+    --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Syne', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
+    --color-ink: #05060b;
+    --color-gold: #f6d889;
+    --color-gold-deep: #c9a24a;
+    --color-magenta: #ff3cac;
+    --color-cyan: #3de0ff;
+    --color-mist: #d7dbea;
+}
+
+html,
+body,
+#app {
+    min-height: 100%;
+}
+
+body {
+    background: #05060b;
+    color: #f4f1ea;
+    overflow-x: hidden;
+}
+
+::selection {
+    background: #f6d889;
+    color: #05060b;
+}
+
+.font-display {
+    font-family: var(--font-display);
+}
+
+.font-serif {
+    font-family: var(--font-serif);
+}
+
+.glass-panel {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+        0 24px 80px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(22px);
+}
+
+.gold-text {
+    background: linear-gradient(120deg, #fff6d6 0%, #f6d889 38%, #c9a24a 72%, #fff1b8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.page-enter-active,
+.page-leave-active {
+    transition:
+        opacity 0.45s ease,
+        transform 0.45s ease;
+}
+
+.page-enter-from,
+.page-leave-to {
+    opacity: 0;
+    transform: translateY(16px);
+}
+
+.marquee-track {
+    animation: marquee 28s linear infinite;
+}
+
+@keyframes marquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes float-y {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-18px);
+    }
+}
+
+@keyframes pulse-glow {
+    0%,
+    100% {
+        opacity: 0.45;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes foil-shine {
+    0% {
+        background-position: -120% 0;
+    }
+    100% {
+        background-position: 220% 0;
+    }
+}
+
+@keyframes cabinet-glow {
+    0%,
+    100% {
+        box-shadow: 0 0 24px rgba(255, 60, 172, 0.25);
+    }
+    50% {
+        box-shadow: 0 0 48px rgba(61, 224, 255, 0.35);
+    }
+}
+
+.float-slow {
+    animation: float-y 5.5s ease-in-out infinite;
+}
+
+.foil-sheen {
+    background: linear-gradient(
+        110deg,
+        rgba(255, 255, 255, 0) 20%,
+        rgba(255, 255, 255, 0.45) 48%,
+        rgba(255, 255, 255, 0) 72%
+    );
+    background-size: 220% 100%;
+    animation: foil-shine 3.4s ease-in-out infinite;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
