@@ -22,22 +22,15 @@ php artisan key:generate
 touch database/database.sqlite
 php artisan migrate
 npm install
-npm run dev
-```
-
-In another terminal:
-
-```bash
+npm run build
 php artisan serve
 ```
 
 Open [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
-Production build:
+If you see `Vite manifest not found`, the CSS/JS build is missing. From the project folder run `npm install && npm run build`, then refresh. Keep `php artisan serve` running.
 
-```bash
-npm run build
-```
+For live reload while editing, use two terminals: `php artisan serve` and `npm run dev`.
 
 ## API
 
