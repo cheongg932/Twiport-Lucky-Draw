@@ -60,7 +60,7 @@ async function spin() {
 
         const draw = await drawPrize('slots');
         const reels = draw.reels ?? [draw.prize.id, draw.prize.id, draw.prize.id];
-        const centerOffset = ITEM_HEIGHT;
+        const count = reelPrizes.value.length;
 
         await Promise.all(
             reels.map((id, reel) => {
@@ -70,14 +70,14 @@ async function spin() {
                 }
                 const loops = 6 + reel * 2;
                 const index = prizeIndex(id);
-                const count = reelPrizes.value.length;
-                const target = loops * count * ITEM_HEIGHT + index * ITEM_HEIGHT - centerOffset;
+                const restIndex = count + index;
+                const target = (loops * count + index) * ITEM_HEIGHT - ITEM_HEIGHT;
                 return gsap.fromTo(el, { y: 0 }, {
                     y: -target,
                     duration: 2.2 + reel * 0.55,
                     ease: 'power4.out',
                 }).then(() => {
-                    gsap.set(el, { y: -(index * ITEM_HEIGHT - centerOffset) });
+                    gsap.set(el, { y: -(restIndex * ITEM_HEIGHT - ITEM_HEIGHT) });
                 });
             }),
         );
