@@ -104,7 +104,7 @@ async function spin() {
                                         <ProductVisual
                                             v-if="reelPrizes[(loop - 1) % Math.max(reelPrizes.length, 1)]"
                                             :kind="reelPrizes[(loop - 1) % reelPrizes.length].kind"
-                                            size="sm"
+                                            size="md"
                                         />
                                     </div>
                                 </div>

@@ -51,6 +51,24 @@ function labelPos(index: number) {
     return { x, y, rotate: index * slice.value + slice.value / 2 };
 }
 
+const wheelLabels: Record<string, string> = {
+    'iphone-16-pro': 'iPhone',
+    'airpods-pro': 'AirPods',
+    miss: 'NEXT',
+    'watch-ultra': 'Watch',
+    'macbook-air': 'MacBook',
+    'ipad-pro': 'iPad',
+    voucher: 'Gift',
+};
+
+function wheelLabel(prize: Prize) {
+    return wheelLabels[prize.id] ?? (prize.kind === 'miss' ? 'NEXT' : prize.name);
+}
+
+const uniquePrizes = computed(() =>
+    segments.value.filter((item, index, list) => list.findIndex((entry) => entry.id === item.id) === index),
+);
+
 onMounted(async () => {
     const data = await fetchCatalog();
     catalog.value = data.prizes;
@@ -130,11 +148,11 @@ async function spin() {
                                 text-anchor="middle"
                                 dominant-baseline="middle"
                                 fill="#f6d889"
-                                font-size="11"
+                                font-size="12"
                                 font-weight="700"
                                 :transform="`rotate(${labelPos(index).rotate} ${labelPos(index).x} ${labelPos(index).y})`"
                             >
-                                {{ segment.kind === 'miss' ? 'NEXT' : segment.name.split(' ')[0] }}
+                                {{ wheelLabel(segment) }}
                             </text>
                         </g>
                         <circle cx="200" cy="200" r="42" fill="#101218" stroke="#f6d889" stroke-width="4" />
@@ -143,24 +161,24 @@ async function spin() {
                 </div>
             </div>
 
-            <div class="glass-panel rounded-[2rem] p-6 sm:p-8">
-                <p class="text-xs tracking-[0.3em] text-white/45">THIS WHEEL HIDES</p>
-                <div class="mt-5 grid grid-cols-2 gap-3">
-                    <div v-for="segment in segments.filter((item, index, list) => list.findIndex((x) => x.id === item.id) === index)" :key="segment.id" class="rounded-2xl bg-white/5 p-3">
-                        <div class="flex h-[108px] items-center justify-center overflow-hidden">
-                            <ProductVisual :kind="segment.kind" size="sm" />
-                        </div>
-                        <p class="mt-1 text-center text-xs text-white/70">{{ segment.name }}</p>
-                    </div>
-                </div>
+            <div class="glass-panel rounded-[2rem] p-5 sm:p-7">
                 <button
-                    class="mt-6 w-full rounded-full bg-gradient-to-r from-[#f6d889] to-[#ffd36b] py-3.5 text-sm font-bold text-[#3a2a08] disabled:opacity-60"
+                    class="w-full rounded-full bg-gradient-to-r from-[#f6d889] to-[#ffd36b] py-3.5 text-sm font-bold text-[#3a2a08] disabled:opacity-60"
                     type="button"
                     :disabled="spinning"
                     @click="spin"
                 >
                     {{ spinning ? 'Spinning…' : 'Spin for an iPhone' }}
                 </button>
+                <p class="mt-5 text-xs tracking-[0.3em] text-white/45">THIS WHEEL HIDES</p>
+                <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                    <div v-for="segment in uniquePrizes" :key="segment.id" class="rounded-2xl bg-white/5 p-3">
+                        <div class="flex h-[72px] items-center justify-center">
+                            <ProductVisual :kind="segment.kind" size="sm" />
+                        </div>
+                        <p class="mt-2 text-center text-[11px] leading-tight text-white/80">{{ segment.name }}</p>
+                    </div>
+                </div>
             </div>
         </div>
         <ResultModal :open="showResult" :prize="result" @close="showResult = false" @again="spin" />

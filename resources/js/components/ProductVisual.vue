@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, useId } from 'vue';
 import type { PrizeKind } from '@/types';
 
 const props = withDefaults(
@@ -13,104 +13,121 @@ const props = withDefaults(
     },
 );
 
+const uid = `pv${useId().replace(/[^a-zA-Z0-9]/g, '')}`;
+
 const resolved = computed(() => props.size ?? (props.compact ? 'md' : 'lg'));
 
 const frameClass = computed(
     () =>
         ({
-            sm: 'h-[108px] w-[96px]',
-            md: 'h-[150px] w-[132px]',
-            lg: 'h-[280px] w-[170px]',
-        })[resolved.value],
-);
-
-const scaleClass = computed(
-    () =>
-        ({
-            sm: 'scale-[0.30]',
-            md: 'scale-[0.42]',
-            lg: 'scale-[0.80]',
+            sm: 'h-[72px] w-[72px]',
+            md: 'h-[120px] w-[120px]',
+            lg: 'h-[250px] w-[160px]',
         })[resolved.value],
 );
 </script>
 
 <template>
-    <div class="relative grid place-items-center overflow-hidden" :class="frameClass">
-        <div class="origin-center" :class="scaleClass">
-            <div v-if="kind === 'iphone'" class="relative h-[340px] w-[168px]">
-                <div class="absolute inset-0 rounded-[2.4rem] bg-gradient-to-br from-[#3a3a40] via-[#111114] to-[#050506] p-[7px] shadow-[0_30px_60px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.18)]">
-                    <div class="relative h-full overflow-hidden rounded-[2rem] bg-[linear-gradient(180deg,#24143d_0%,#14233d_48%,#0b1220_100%)]">
-                        <div class="absolute left-1/2 top-3 z-10 h-[18px] w-[72px] -translate-x-1/2 rounded-full bg-black shadow-[0_0_0_2px_#111]" />
-                        <div class="absolute inset-x-5 top-12 text-center text-white">
-                            <p class="text-[11px] tracking-[0.3em] text-white/60">LUCKY DRAW</p>
-                            <p class="mt-3 font-display text-4xl font-bold">9:41</p>
-                            <div class="mx-auto mt-8 h-24 w-24 rounded-[1.8rem] bg-gradient-to-br from-[#ff3cac]/80 to-[#3de0ff]/70 shadow-[0_12px_40px_rgba(255,60,172,0.35)]" />
-                            <p class="mt-6 text-[11px] text-white/70">iPhone 16 Pro</p>
-                        </div>
-                        <div class="absolute inset-x-10 bottom-5 h-1.5 rounded-full bg-white/80" />
-                    </div>
-                </div>
-                <div class="absolute -right-[3px] top-24 h-10 w-[3px] rounded-r bg-[#2a2a2e]" />
-                <div class="absolute -left-[3px] top-20 h-8 w-[3px] rounded-l bg-[#2a2a2e]" />
-                <div class="absolute -left-[3px] top-32 h-12 w-[3px] rounded-l bg-[#2a2a2e]" />
-            </div>
+    <div class="relative grid place-items-center" :class="frameClass">
+        <svg
+            v-if="kind === 'iphone'"
+            viewBox="0 0 80 164"
+            class="h-full max-h-full w-auto drop-shadow-[0_8px_18px_rgba(0,0,0,0.35)]"
+            aria-hidden="true"
+        >
+            <defs>
+                <linearGradient :id="`${uid}-phoneBody`" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#6a6a72" />
+                    <stop offset="45%" stop-color="#2a2a30" />
+                    <stop offset="100%" stop-color="#111114" />
+                </linearGradient>
+                <linearGradient :id="`${uid}-phoneScreen`" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#5b3dff" />
+                    <stop offset="55%" stop-color="#1b3a6b" />
+                    <stop offset="100%" stop-color="#0b1220" />
+                </linearGradient>
+            </defs>
+            <rect x="4" y="2" width="72" height="160" rx="16" :fill="`url(#${uid}-phoneBody)`" />
+            <rect x="8" y="8" width="64" height="148" rx="12" :fill="`url(#${uid}-phoneScreen)`" />
+            <rect x="26" y="12" width="28" height="8" rx="4" fill="#050506" />
+            <text x="40" y="52" text-anchor="middle" fill="#fff" font-size="16" font-weight="700" font-family="Syne, sans-serif">9:41</text>
+            <rect x="24" y="64" width="32" height="32" rx="10" fill="#ff3cac" opacity="0.9" />
+            <rect x="28" y="144" width="24" height="3" rx="1.5" fill="#fff" opacity="0.85" />
+        </svg>
 
-            <div v-else-if="kind === 'macbook'" class="relative w-[280px]">
-                <div class="rounded-t-2xl border border-white/10 bg-gradient-to-b from-[#d7dbe3] to-[#9aa3b2] p-2 shadow-[0_24px_50px_rgba(0,0,0,0.4)]">
-                    <div class="relative overflow-hidden rounded-xl bg-[#0b1220] px-4 py-6">
-                        <div class="absolute left-1/2 top-1.5 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-[#3a3a40]" />
-                        <p class="text-center text-[10px] tracking-[0.4em] text-white/50">MACBOOK AIR</p>
-                        <div class="mx-auto mt-4 h-16 w-28 rounded-xl bg-gradient-to-r from-[#3de0ff]/40 to-[#f6d889]/40" />
-                    </div>
-                </div>
-                <div class="relative -mt-px h-3 rounded-b-xl bg-gradient-to-b from-[#cfd5de] to-[#8b93a3]">
-                    <div class="absolute left-1/2 top-0 h-1 w-16 -translate-x-1/2 rounded-b bg-[#6f7684]" />
-                </div>
-            </div>
+        <svg
+            v-else-if="kind === 'macbook'"
+            viewBox="0 0 180 112"
+            class="h-auto w-full max-h-full drop-shadow-[0_8px_18px_rgba(0,0,0,0.35)]"
+            aria-hidden="true"
+        >
+            <rect x="18" y="4" width="144" height="88" rx="8" fill="#c5ccd6" />
+            <rect x="24" y="10" width="132" height="72" rx="4" fill="#102033" />
+            <circle cx="90" cy="16" r="2" fill="#4b5563" />
+            <rect x="62" y="36" width="56" height="24" rx="6" fill="#3de0ff" opacity="0.45" />
+            <rect x="8" y="92" width="164" height="12" rx="3" fill="#9aa3b2" />
+            <rect x="72" y="92" width="36" height="5" rx="1" fill="#6f7684" />
+        </svg>
 
-            <div v-else-if="kind === 'ipad'" class="relative h-[220px] w-[168px] rounded-[1.6rem] bg-gradient-to-br from-[#2c2c32] to-[#09090b] p-[7px] shadow-[0_24px_50px_rgba(0,0,0,0.4)]">
-                <div class="flex h-full items-center justify-center overflow-hidden rounded-[1.2rem] bg-[linear-gradient(160deg,#1b1430,#102033)]">
-                    <div class="text-center">
-                        <div class="mx-auto h-14 w-14 rounded-2xl bg-gradient-to-br from-white/80 to-[#9ad7ff]" />
-                        <p class="mt-3 text-[11px] tracking-[0.3em] text-white/70">iPAD PRO</p>
-                    </div>
-                </div>
-            </div>
+        <svg
+            v-else-if="kind === 'ipad'"
+            viewBox="0 0 110 148"
+            class="h-full max-h-full w-auto drop-shadow-[0_8px_18px_rgba(0,0,0,0.35)]"
+            aria-hidden="true"
+        >
+            <rect x="6" y="4" width="98" height="140" rx="14" fill="#2c2c32" />
+            <rect x="12" y="10" width="86" height="128" rx="10" fill="#1b1430" />
+            <rect x="36" y="52" width="38" height="38" rx="10" fill="#c8e7ff" />
+            <circle cx="55" cy="128" r="3" fill="#6b7280" />
+        </svg>
 
-            <div v-else-if="kind === 'watch'" class="relative flex flex-col items-center">
-                <div class="h-10 w-14 rounded-t-xl bg-gradient-to-b from-[#ff7a3c] to-[#c2410c]" />
-                <div class="h-[148px] w-[128px] rounded-[2rem] bg-gradient-to-br from-[#3a3a40] to-[#111] p-2 shadow-[0_18px_40px_rgba(0,0,0,0.4)]">
-                    <div class="flex h-full flex-col items-center justify-center rounded-[1.5rem] bg-[#0a0c12]">
-                        <p class="text-[10px] tracking-[0.3em] text-[#ffb38a]">ULTRA</p>
-                        <p class="font-display text-3xl font-bold text-white">9:41</p>
-                        <p class="text-[10px] text-white/50">128 BPM</p>
-                    </div>
-                </div>
-                <div class="h-10 w-14 rounded-b-xl bg-gradient-to-b from-[#c2410c] to-[#7c2d12]" />
-            </div>
+        <svg
+            v-else-if="kind === 'watch'"
+            viewBox="0 0 90 150"
+            class="h-full max-h-full w-auto drop-shadow-[0_8px_18px_rgba(0,0,0,0.35)]"
+            aria-hidden="true"
+        >
+            <rect x="28" y="2" width="34" height="28" rx="8" fill="#ff7a3c" />
+            <rect x="10" y="28" width="70" height="94" rx="22" fill="#2a2a30" />
+            <rect x="16" y="34" width="58" height="82" rx="18" fill="#0a0c12" />
+            <text x="45" y="72" text-anchor="middle" fill="#ffb38a" font-size="8" font-family="Syne, sans-serif">ULTRA</text>
+            <text x="45" y="92" text-anchor="middle" fill="#fff" font-size="16" font-weight="700" font-family="Syne, sans-serif">9:41</text>
+            <rect x="28" y="120" width="34" height="28" rx="8" fill="#c2410c" />
+        </svg>
 
-            <div v-else-if="kind === 'airpods'" class="relative h-[168px] w-[140px]">
-                <div class="absolute left-1/2 top-8 h-28 w-28 -translate-x-1/2 rounded-[2rem] bg-gradient-to-b from-white to-[#c9d0dc] shadow-[0_18px_40px_rgba(0,0,0,0.3)]">
-                    <div class="absolute left-1/2 top-3 h-1.5 w-8 -translate-x-1/2 rounded-full bg-[#9aa3b2]" />
-                    <div class="absolute left-1/2 top-[52%] h-10 w-10 -translate-x-1/2 rounded-full border border-[#b7bec9] bg-white" />
-                </div>
-                <div class="absolute left-8 top-0 h-16 w-7 rounded-full bg-gradient-to-b from-white to-[#d7dbe3]" />
-                <div class="absolute right-8 top-0 h-16 w-7 rounded-full bg-gradient-to-b from-white to-[#d7dbe3]" />
-            </div>
+        <svg
+            v-else-if="kind === 'airpods'"
+            viewBox="0 0 120 120"
+            class="h-full max-h-full w-auto drop-shadow-[0_8px_18px_rgba(0,0,0,0.35)]"
+            aria-hidden="true"
+        >
+            <rect x="28" y="38" width="64" height="64" rx="22" fill="#f4f6fa" />
+            <rect x="48" y="46" width="24" height="5" rx="2.5" fill="#9aa3b2" />
+            <circle cx="60" cy="78" r="12" fill="#fff" stroke="#b7bec9" stroke-width="3" />
+            <rect x="34" y="14" width="16" height="36" rx="8" fill="#e8edf4" />
+            <rect x="70" y="14" width="16" height="36" rx="8" fill="#e8edf4" />
+        </svg>
 
-            <div v-else-if="kind === 'voucher'" class="relative h-[150px] w-[230px] overflow-hidden rounded-2xl bg-gradient-to-br from-[#f6d889] via-[#e7c36a] to-[#a67c2d] p-5 text-[#3a2a08] shadow-[0_18px_40px_rgba(246,216,137,0.28)]">
-                <div class="foil-sheen pointer-events-none absolute inset-0 opacity-50" />
-                <p class="text-[10px] tracking-[0.4em]">GIFT CARD</p>
-                <p class="mt-3 font-display text-2xl font-bold">RM 200</p>
-                <p class="mt-1 text-xs">Lucky draw voucher</p>
-            </div>
+        <svg
+            v-else-if="kind === 'voucher'"
+            viewBox="0 0 160 96"
+            class="h-auto w-full max-h-full drop-shadow-[0_8px_18px_rgba(246,216,137,0.28)]"
+            aria-hidden="true"
+        >
+            <rect x="4" y="8" width="152" height="80" rx="12" fill="#f6d889" />
+            <text x="20" y="36" fill="#3a2a08" font-size="8" letter-spacing="2" font-family="Syne, sans-serif">GIFT CARD</text>
+            <text x="20" y="62" fill="#3a2a08" font-size="22" font-weight="700" font-family="Syne, sans-serif">RM 200</text>
+        </svg>
 
-            <div v-else class="grid h-[150px] w-[150px] place-items-center rounded-full border border-white/10 bg-white/5 text-center">
-                <div>
-                    <p class="font-display text-lg text-white/80">Almost</p>
-                    <p class="text-xs text-white/50">Try another draw</p>
-                </div>
-            </div>
-        </div>
+        <svg
+            v-else
+            viewBox="0 0 120 120"
+            class="h-full max-h-full w-auto"
+            aria-hidden="true"
+        >
+            <circle cx="60" cy="60" r="46" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.18)" stroke-width="3" />
+            <text x="60" y="58" text-anchor="middle" fill="#d7dbea" font-size="14" font-weight="700" font-family="Syne, sans-serif">Almost</text>
+            <text x="60" y="76" text-anchor="middle" fill="#8b90a5" font-size="8" font-family="Manrope, sans-serif">try again</text>
+        </svg>
     </div>
 </template>

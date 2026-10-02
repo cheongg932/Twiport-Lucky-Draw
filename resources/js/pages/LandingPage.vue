@@ -219,7 +219,7 @@ onUnmounted(() => {
                     :while-in-view="{ opacity: 1, y: 0, transition: { delay: index * 0.06 } }"
                     :in-view-options="{ once: true }"
                 >
-                    <div class="flex h-[150px] items-center justify-center overflow-hidden">
+                    <div class="flex h-[120px] items-center justify-center">
                         <ProductVisual :kind="prize.kind" size="md" />
                     </div>
                     <h3 class="mt-2 font-display text-xl font-bold">{{ prize.name }}</h3>
